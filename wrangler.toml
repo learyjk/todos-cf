@@ -1,0 +1,6 @@
+name = "todos-cf"
+compatibility_date = "2023-01-01"
+
+kv_namespaces = [
+  { binding = "TODOS", id = "94fe55f2df1946e6ac355f84b1566483", preview_id = "94fe55f2df1946e6ac355f84b1566483" }
+]
