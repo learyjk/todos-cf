@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "hono": "^3.2.1",
+    "superstruct": "^1.0.3",
     "uuid": "^9.0.0"
   }
 }
