@@ -1,6 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import { Hono } from "hono";
-import { object, optional, string, boolean, assert } from "superstruct";
+import { cors } from "hono/cors";
+import {
+  object,
+  optional,
+  string,
+  boolean,
+  assert,
+  StructError,
+} from "superstruct";
 import { StatusCode } from "hono/utils/http-status";
 
 type Context = {
@@ -23,8 +31,15 @@ class CoolerError extends Error {
 
 const app = new Hono<Context>();
 
+app.use("/*", cors({ origin: "*" }));
+
 app.onError((error, c) => {
-  const status = error instanceof CoolerError ? error.status : 500;
+  const status =
+    error instanceof CoolerError
+      ? error.status
+      : error instanceof StructError
+      ? 400
+      : 500;
   return c.json({ error: error.message }, status);
 });
 
@@ -60,8 +75,8 @@ app.post("/todos/:user_id", async (c) => {
 
 app.get("/error", async (c) => {
   const data = {
-    titlee: "hey",
-    completed: false,
+    title: "hey",
+    completed: "false",
   };
 
   assert(data, todoSchema);
